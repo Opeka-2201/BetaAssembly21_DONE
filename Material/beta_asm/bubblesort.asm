@@ -22,7 +22,7 @@
 |; @param Ro : register used to save the address
 .macro ADDR(Ra, Ri, Ro) MULC(Ri,4, Ro) ADD(Ra, Ro, Ro)
 
-|; Macro : LDR : loads the Ri th element of the array Ra and saves it in 
+|; Macro : LDR : loads the Ri th element of the array Ra and saves it in
 |;               the register Ro
 |; @param Ra : address of the array
 |; @param Ri : index of the element to extract
@@ -49,7 +49,7 @@ swap:
     POP(BP) POP(LP)
     RTN()
 
-|; Function : quicksort : sorts the array using the bubblesort algorithm
+|; Function : bubblesort : sorts the array using the bubblesort algorithm
 |; @param array : address of the array
 |; @param size : size of the array
 bubblesort:
@@ -85,7 +85,7 @@ bubblesort_loop_2:
     ADDR(R1,R5,R6) |; r6 = &array[j]
 
     ADDC(R5,1,R0)
-    ADDR(R1,R0,R0) |; r0 = &array[j+1] 
+    ADDR(R1,R0,R0) |; r0 = &array[j+1]
 
     PUSH(R0) PUSH(R6)
     CALL(swap,2) |; swap(&array[j], &array[j+1])
