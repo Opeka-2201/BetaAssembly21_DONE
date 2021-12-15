@@ -15,19 +15,19 @@
 |; @param Rtmp2 : second temporary register used to swap
 .macro SWAP(Ra,Rb, Rtmp1, Rtmp2) LD(Ra, 0, Rtmp1) LD(Rb, 0, Rtmp2) ST(Rtmp1, 0, Rb) ST(Rtmp2,0, Ra)
 
-|; Macro : ADDR : computes the adress of the Ri th element in the array Ra
+|; Macro : ADDR : computes the address of the Ri th element in the array Ra
 |;                and saves it in the register Ro
 |; @param Ra : address of the array
 |; @param Ri : index of the element to compute the address
 |; @param Ro : register used to save the address
 .macro ADDR(Ra, Ri, Ro) MULC(Ri,4, Ro) ADD(Ra, Ro, Ro)
 
-|; Macro : LDR : loads the Ri th element of the array Ra and saves it in
+|; Macro : LDARR : loads the Ri th element of the array Ra and saves it in 
 |;               the register Ro
 |; @param Ra : address of the array
 |; @param Ri : index of the element to extract
 |; @param Ro : register used to save the value of the element extracted
-.macro LDR(Ra, Ri, Ro) ADDR(Ra, Ri, Ro) LD(Ro, 0, Ro)
+.macro LDARR(Ra, Ri, Ro) ADDR(Ra, Ri, Ro) LD(Ro, 0, Ro)
 
 |; --- Functions ---
 
@@ -49,7 +49,7 @@ swap:
     POP(BP) POP(LP)
     RTN()
 
-|; Function : bubblesort : sorts the array using the bubblesort algorithm
+|; Function : quicksort : sorts the array using the bubblesort algorithm
 |; @param array : address of the array
 |; @param size : size of the array
 bubblesort:
@@ -74,10 +74,10 @@ bubblesort_loop_2:
     CMPLT(R5,R6,R0)
     BF(R0,bubblesort_loop_1_end) |; if(j >= size - 1 - i) -> i++
 
-    LDR(R1,R5,R6) |; r6 = array[j]
+    LDARR(R1,R5,R6) |; r6 = array[j]
 
     ADDC(R5,1,R0)
-    LDR(R1,R0,R0) |; r0 = array[j+1]
+    LDARR(R1,R0,R0) |; r0 = array[j+1]
 
     CMPLT(R0,R6,R0)
     BF(R0, bubblesort_loop_2_end) |; if(array[j+1] >= array[j]) -> direct j++
@@ -85,7 +85,7 @@ bubblesort_loop_2:
     ADDR(R1,R5,R6) |; r6 = &array[j]
 
     ADDC(R5,1,R0)
-    ADDR(R1,R0,R0) |; r0 = &array[j+1]
+    ADDR(R1,R0,R0) |; r0 = &array[j+1] 
 
     PUSH(R0) PUSH(R6)
     CALL(swap,2) |; swap(&array[j], &array[j+1])

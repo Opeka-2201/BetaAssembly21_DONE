@@ -22,12 +22,12 @@
 |; @param Ro : register used to save the address
 .macro ADDR(Ra, Ri, Ro) MULC(Ri,4, Ro) ADD(Ra, Ro, Ro)
 
-|; Macro : LDR : loads the Ri th element of the array Ra and saves it in 
+|; Macro : LDARR : loads the Ri th element of the array Ra and saves it in 
 |;               the register Ro
 |; @param Ra : address of the array
 |; @param Ri : index of the element to extract
 |; @param Ro : register used to save the value of the element extracted
-.macro LDR(Ra, Ri, Ro) ADDR(Ra, Ri, Ro) LD(Ro, 0, Ro)
+.macro LDARR(Ra, Ri, Ro) ADDR(Ra, Ri, Ro) LD(Ro, 0, Ro)
 
 |; --- Functions ---
 
@@ -52,7 +52,7 @@ swap:
 |; Function : partition : computes the pivot and and sorts the elements in the 
 |;                        corresponding sub-arrays, the value of the pivot is
 |;                        computed from the last element of the array
-|; @param array : the adress of the array
+|; @param array : the address of the array
 |; @param size : size of the array
 |; @param pivot : index of element to swap with last element (often the middle of the array)
 |; @returns small + 1 : the index of the pivot after partitioning
@@ -77,7 +77,7 @@ partition:
     PUSH(R5) PUSH(R6)
     CALL(swap,2) |; swap(array + pivot, array + size - 1)
 
-    LDR(R1,R4,R6) |; r6 = pivot_val = array[r4]
+    LDARR(R1,R4,R6) |; r6 = pivot_val = array[r4]
     
     MOVE(R31,R7) |; r7 = curr = 0
     SUBC(R31,1,R8) |; r8 = small = -1
@@ -86,7 +86,7 @@ partition_loop:
     CMPLT(R7,R4,R0)
     BF(R0,partition_end) |; if(curr >= size - 1) -> exit loop
 
-    LDR(R1,R7,R0) |; r0 = array[curr]
+    LDARR(R1,R7,R0) |; r0 = array[curr]
     CMPLE(R0,R6,R0)
     BT(R0,partition_inc) |; if(array[curr] <= pivot_val) -> enter the condition in _inc
     
