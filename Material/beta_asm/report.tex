@@ -45,6 +45,16 @@ SWAP macro separetly. The rest of the code naively translates the \textbf{bubble
 To implement the Quicksort, we used the same macros and \textbf{swap} function defined earlier. To correctly implement the sorting algorithm, we had to create another function, 
 \textbf{partition} that finds the pivot and puts values smaller than the pivot in a sub-array on the left and the values greater than the pivot in a sub-array on the right. Our function
 \textbf{quicksort} translated from the \textbf{quicksort.c} file recursively calls himself and the partition function to sort the array as predicted.
+
+\section{Comparaison of sorting algorithms}
+When testing our sorts on some large arrays (e.g 4096 elements), we distinguish a big leap in performance between the the sorts. Indeed, we can analyze, 
+the time complexity of our algorithms. 
+\begin{itemize}
+    \item Bubblesort : The bubblesort goes through the entire array for each iterations (n steps for an array of length n) and it does n iterations. The time complexity 
+    of our algorithm is then : $\mathcal{O}(n^2)$ (best and worst case).
+    \item Quicksort : Although the worst case is in $\mathcal{O}(n^2)$ (array sorted in reverse). In average, the time complexity for this sort is $\mathcal{O}(n\log(n))$ which is better than the bubblesort, 
+    as we can see in our tests.
+\end{itemize}
 % ==============================================================================
 
 \end{document}
